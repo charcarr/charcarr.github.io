@@ -51,9 +51,9 @@
             }
 
             .container {
-                max-width: 740px;
+                max-width: 960px;
                 margin: 0 auto;
-                padding: 0 2rem;
+                padding: 0 2.5rem;
             }
 
             /* ── Hero ── */
@@ -86,7 +86,7 @@
             .hero-tagline {
                 font-size: 1.1rem;
                 color: var(--muted);
-                max-width: 460px;
+                max-width: 720px;
                 line-height: 1.7;
                 margin-bottom: 2.5rem;
             }
@@ -158,6 +158,36 @@
                 font-family: var(--font-display);
                 font-style: italic;
                 font-size: 1.2rem;
+            }
+
+            .about-list {
+                list-style: none;
+                margin-top: 1.5rem;
+                max-width: 580px;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .about-list li {
+                font-size: 1rem;
+                line-height: 1.75;
+                color: var(--text);
+                padding-left: 1.25rem;
+                position: relative;
+            }
+
+            .about-list li::before {
+                content: "—";
+                position: absolute;
+                left: 0;
+                color: var(--accent);
+                font-family: var(--font-display);
+            }
+
+            .about-list li strong {
+                font-weight: 500;
+                color: var(--text);
             }
 
             /* ── Lady Tides ── */
@@ -367,8 +397,13 @@
                 <p class="hero-eyebrow">Software Engineer</p>
                 <h1>Charley<br />Carriero</h1>
                 <p class="hero-tagline">
-                    Product focused software engineer with 5+ years experience
-                    building backend systems, APIs and full stack applications.
+                    Product-focused software engineer with 5+ years of
+                    experience building backend systems, APIs, and full-stack
+                    applications.
+                    <br /><br />
+                    I'm passionate about using software to simplify the ways we
+                    live and work. I lead projects and teams, and have mentored
+                    and coached 80+ engineers.
                 </p>
                 <div class="hero-actions">
                     <a
@@ -394,19 +429,6 @@
                     >
                 </div>
             </header>
-
-            <section id="about">
-                <p class="section-label">About</p>
-                <p class="about-text">
-                    Product-focused backend engineer with 5+ years building APIs
-                    and distributed systems — most recently at an a16z-backed
-                    startup. I've led teams, designed schemas from scratch, and
-                    shipped features that touch real users. Before engineering I
-                    taught computer science, and hold an MSc in Data Science
-                    from UBC. I care about <em>how software feels</em>, not just
-                    how it works.
-                </p>
-            </section>
 
             <section id="work">
                 <p class="section-label">Independent Work</p>
