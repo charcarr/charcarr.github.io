@@ -20,7 +20,7 @@
                 --text: #1c1b18;
                 --muted: #7a7870;
                 --border: #e5e3dc;
-                --accent: #9b8ec4;
+                --accent: #9a7488;
                 --sage: #4a6558;
                 --card-bg: #f0ede7;
                 --font-display: "Cormorant Garamond", Georgia, serif;
@@ -141,94 +141,79 @@
                 margin-bottom: 2rem;
             }
 
-            /* ── Lady Tides ── */
-            .lt-card {
-                background: var(--card-bg);
-                border-radius: 1.5rem;
-                padding: 3rem 3rem 2.5rem;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .lt-meta {
-                font-family: var(--font-mono);
-                font-size: 0.68rem;
-                letter-spacing: 0.18em;
-                text-transform: uppercase;
-                color: var(--accent);
-                margin-bottom: 0.75rem;
-                position: relative;
-            }
-
-            .lt-card h2 {
-                font-family: var(--font-display);
-                font-size: clamp(2.4rem, 5vw, 3.2rem);
-                font-weight: 400;
-                line-height: 1.1;
-                margin-bottom: 1.25rem;
-                position: relative;
-            }
-
-            .lt-card p {
-                font-size: 1rem;
-                color: var(--muted);
-                max-width: 460px;
-                margin-bottom: 2rem;
-                line-height: 1.75;
-                position: relative;
-            }
-
-            .appstore-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 0.5rem;
-                background: var(--text);
-                color: var(--bg);
-                padding: 0.65rem 1.3rem;
-                border-radius: 0.6rem;
-                text-decoration: none;
-                font-size: 0.88rem;
-                font-family: var(--font-body);
-                font-weight: 500;
-                position: relative;
-                transition: opacity 0.18s;
-            }
-
-            .appstore-btn:hover {
-                opacity: 0.82;
-            }
-
-            .appstore-btn svg {
-                width: 17px;
-                height: 17px;
-                fill: currentColor;
-                flex-shrink: 0;
-            }
-
-            /* Phone mockups */
-            .phones {
+            /* ── Writing ── */
+            .post .item-name {
                 display: flex;
-                gap: 1rem;
-                margin-top: 2.5rem;
-                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 0.25rem 0.8rem;
             }
 
-            .phone {
-                width: 30%;
-                max-width: 130px;
-                aspect-ratio: 9/19.5;
-                border-radius: 1.25rem;
-                border: 2px solid rgba(255, 255, 255, 0.85);
-                overflow: hidden;
+            .item-name {
+                font-family: var(--font-body);
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--text);
+                line-height: 1.4;
+            }
+
+            .item-sub {
+                font-size: 0.92rem;
+                color: var(--muted);
+                line-height: 1.5;
+            }
+
+            .tag {
+                font-family: var(--font-mono);
+                font-size: 0.62rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: #15803d;
+                white-space: nowrap;
+                line-height: 1;
+                padding-top: 0.12em;
+            }
+
+            /* ── Apps ── */
+            .apps {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem 4rem;
+            }
+
+            .app {
+                display: flex;
+                align-items: center;
+                gap: 1.1rem;
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .app-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 22.5%;
+                background: #fff;
                 flex-shrink: 0;
-                box-shadow: 0 8px 32px rgba(28, 27, 24, 0.1);
+                box-shadow:
+                    0 0 0 1px rgba(28, 27, 24, 0.05),
+                    0 4px 14px -6px rgba(28, 27, 24, 0.18);
+                transition:
+                    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             }
 
-            .phone img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
+            .app:hover .app-icon {
+                transform: translateY(-3px);
+                box-shadow:
+                    0 0 0 1px rgba(28, 27, 24, 0.05),
+                    0 14px 28px -10px rgba(154, 116, 136, 0.4);
+            }
+
+            .app .item-name {
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
             }
 
             /* ── Footer ── */
@@ -295,15 +280,6 @@
                 .hero {
                     padding: 4rem 0 3.5rem;
                 }
-                .lt-card {
-                    padding: 2rem 1.75rem 2rem;
-                }
-                .phones {
-                    gap: 0.75rem;
-                }
-                .phone {
-                    width: 80px;
-                }
                 .footer-inner {
                     flex-direction: column;
                     align-items: flex-start;
@@ -345,56 +321,56 @@
                 </div>
             </header>
 
-            <section id="work">
-                <p class="section-label">Independent Work</p>
-                <div class="lt-card">
-                    <p class="lt-meta">iOS App &nbsp;·&nbsp; 2026</p>
-                    <h2>Lady Tides</h2>
-                    <p>
-                        The menstrual cycle is a naturally occurring rhythm,
-                        much like the moon and the tides. Lady Tides provides a
-                        quiet space for users to observe and record their own
-                        patterns.
+            <section id="writing">
+                <p class="section-label">Writing</p>
+                <div class="post">
+                    <p class="item-name">
+                        Can you hire an AI agent?
+                        <span class="tag">Coming soon</span>
                     </p>
+                    <p class="item-sub">
+                        A commentary on how we speak about agents
+                    </p>
+                </div>
+            </section>
 
+            <section id="apps">
+                <p class="section-label">Apps</p>
+                <div class="apps">
                     <a
-                        href="https://apps.apple.com/us/app/lady-tides/id6749830951"
+                        class="app"
+                        href="https://ladytides.com/"
                         target="_blank"
                         rel="noopener"
-                        class="appstore-btn"
                     >
-                        <svg
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-                            />
-                        </svg>
-                        Available on the App Store
+                        <img
+                            class="app-icon"
+                            src="images/lady-tides-icon.png"
+                            alt="Lady Tides app icon"
+                        />
+                        <div>
+                            <p class="item-name">Lady Tides</p>
+                            <p class="item-sub">Your beautiful period tracker</p>
+                        </div>
                     </a>
-
-                    <div class="phones" aria-label="Lady Tides app screenshots">
-                        <div class="phone">
-                            <img
-                                src="images/lt-cycles.png"
-                                alt="Lady Tides calendar view "
-                            />
+                    <a
+                        class="app"
+                        href="https://real-rex.carriero-char.workers.dev/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <img
+                            class="app-icon"
+                            src="images/real-rex-icon.png"
+                            alt="Real Rex app icon"
+                        />
+                        <div>
+                            <p class="item-name">
+                                Real Rex <span class="tag">Coming soon</span>
+                            </p>
+                            <p class="item-sub">Recommend your best</p>
                         </div>
-                        <div class="phone">
-                            <img
-                                src="images/lt-home.png"
-                                alt="Lady Tides home screen showing cycle day and phase"
-                            />
-                        </div>
-                        <div class="phone">
-                            <img
-                                src="images/lt-reminders.png"
-                                alt="Lady Tides reminders screen"
-                            />
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </section>
 
