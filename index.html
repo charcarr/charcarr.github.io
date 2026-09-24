@@ -142,6 +142,29 @@
             }
 
             /* ── Writing ── */
+            .posts {
+                display: flex;
+                flex-direction: column;
+                gap: 1.75rem;
+            }
+
+            a.post {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            a.post .item-name {
+                transition: color 0.25s;
+            }
+
+            a.post:hover .item-name {
+                color: var(--accent);
+            }
+
+            .tag.tag-muted {
+                color: var(--muted);
+            }
+
             .post .item-name {
                 display: flex;
                 align-items: center;
@@ -321,16 +344,33 @@
                 </div>
             </header>
 
-            <section id="writing">
-                <p class="section-label">Writing</p>
-                <div class="post">
-                    <p class="item-name">
-                        Can you hire an AI agent?
-                        <span class="tag">Coming soon</span>
-                    </p>
-                    <p class="item-sub">
-                        A commentary on how we speak about agents
-                    </p>
+            <section id="blog">
+                <p class="section-label">Blog</p>
+                <div class="posts">
+                    <div class="post">
+                        <p class="item-name">
+                            Can you hire an AI agent?
+                            <span class="tag">Coming soon</span>
+                        </p>
+                        <p class="item-sub">
+                            A commentary on how we speak about agents
+                        </p>
+                    </div>
+                    <a
+                        class="post"
+                        href="https://lune.co/blog/lifting-the-lid-vessel-tracking"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <p class="item-name">
+                            Lifting the lid: vessel tracking at Lune
+                            <span class="tag tag-muted">Lune · 2024</span>
+                        </p>
+                        <p class="item-sub">
+                            How we use vessel tracking data in emission
+                            calculations
+                        </p>
+                    </a>
                 </div>
             </section>
 
