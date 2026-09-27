@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can you hire an AI agent?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --text: #1d1c1a;
+    --muted: #6b6760;
+    --rule: #e4e0d8;
+    --accent: #b4532a;
+    --card: #f3f0ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161514;
+      --text: #ece9e3;
+      --muted: #9c978e;
+      --rule: #2e2c29;
+      --accent: #e08a5f;
+      --card: #201f1d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Literata", Georgia, serif;
+    font-size: 19px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  article { max-width: 680px; margin: 0 auto; padding: 72px 20px 120px; }
+  .byline {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0 0 56px;
+  }
+  h1 { font-size: clamp(34px, 6vw, 44px); line-height: 1.12; font-weight: 600; margin: 0 0 14px; letter-spacing: -.02em; }
+  .subtitle { font-size: 21px; line-height: 1.45; color: var(--muted); margin: 0 0 18px; }
+  h2 { font-size: 25px; font-weight: 600; margin: 64px 0 14px; line-height: 1.25; letter-spacing: -.01em; }
+  p { margin: 0 0 22px; }
+  blockquote {
+    margin: 32px 0; padding: 4px 0 4px 22px;
+    border-left: 3px solid var(--accent);
+    font-style: italic; font-size: 24px; line-height: 1.45;
+  }
+  .section-sub { font-size: 20px; line-height: 1.5; color: var(--muted); margin: -4px 0 32px; }
+  /* Opening hook: a little timeline, last year -> this year.
+     Each dot sits at the vertical centre of its text; the line runs centre to centre. */
+  .hook { margin: 36px 0 40px; padding-left: 34px; }
+  .hook-row { position: relative; }
+  .hook-row + .hook-row { margin-top: 30px; }
+  .hook-row p::before {                 /* the dot */
+    content: ""; position: absolute; left: -34px; top: 50%; transform: translateY(-50%);
+    width: 11px; height: 11px; border-radius: 50%; z-index: 1;
+    border: 1.5px solid var(--muted); background: var(--bg);
+  }
+  .hook-row.now p::before { border-color: #22c55e; background: #22c55e; }
+  .hook-row:not(:last-child)::after,    /* line: centre down to the gap */
+  .hook-row:not(:first-child)::before { /* line: gap down to centre */
+    content: ""; position: absolute; left: -29px; width: 1px; background: var(--rule);
+  }
+  .hook-row:not(:last-child)::after { top: 50%; bottom: -30px; }
+  .hook-row:not(:first-child)::before { top: 0; bottom: 50%; }
+  .hook-row p { margin: 0; font-size: 20px; line-height: 1.6; }
+  .tiny { font-size: 14px; }
+  /* Summary callout: one big line, then the rest in normal text */
+  .callout { margin: 8px 0 36px; padding: 2px 0 2px 22px; border-left: 2px solid var(--accent); }
+  .callout p { margin: 0; }
+  .callout .callout-line { font-size: 24px; line-height: 1.4; margin-bottom: 8px; }
+  /* A tiny chat exchange: person asks, model agrees */
+  .chat { display: flex; flex-direction: column; gap: 8px; margin: -4px 0 28px; font-family: "Inter", system-ui, sans-serif; font-size: 15px; line-height: 1.5; }
+  .chat span { max-width: 85%; padding: 10px 16px; }
+  .chat .you { align-self: flex-end; background: color-mix(in srgb, var(--accent) 16%, var(--bg)); border-radius: 16px 16px 4px 16px; }
+  .chat .ai { align-self: flex-start; background: var(--card); border-radius: 16px 16px 16px 4px; }
+  /* Who acts on your behalf? A spectrum from "does what you said" to "decides what to do" */
+  .spectrum { margin: 40px 0 44px; font-family: "Inter", system-ui, sans-serif; }
+  .spectrum-ends { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+  .spectrum-ends div:last-child { text-align: right; }
+  .s-name { display: block; font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .s-note { display: block; font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .track { position: relative; height: 2px; margin: 0 5px; background: linear-gradient(90deg, var(--rule), #22c55e); }
+  .stop { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%; transform: translate(-50%, -50%); }
+  .stop.bot { left: 0; border: 1.5px solid var(--muted); background: var(--bg); }
+  .stop.ai { left: 62%; background: var(--bg); border: 1.5px solid var(--accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent); }
+  .stop.human { left: 100%; background: #22c55e; }
+  .spectrum-mid { position: relative; height: 72px; margin: 0 5px; }
+  .spectrum-mid div { position: absolute; left: 62%; top: 16px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+  .spectrum-mid .s-name { color: var(--accent); }
+
+  /* Anatomy of an agent: a wide figure that breaks out of the text column.
+     The program holds instructions, tools, history and the loop; the model sits outside it. */
+  .anatomy {
+    position: relative; left: 50%; transform: translateX(-50%);
+    width: min(1440px, calc(100vw - 2 * clamp(20px, 5vw, 72px)));
+    margin: 44px 0 52px;
+    display: grid; grid-template-columns: 1fr auto auto; gap: 20px; align-items: center;
+    font-family: "Inter", system-ui, sans-serif;
+  }
+  .program { background: var(--card); border-radius: 20px; padding: 26px; }
+  .program-label { margin: 0 0 18px; font-family: "Literata", Georgia, serif; font-size: 22px; font-weight: 600; line-height: 1.25; color: var(--text); }
+  .program-label span { display: block; font-family: "Inter", system-ui, sans-serif; font-size: 14px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .parts { display: grid; grid-template-columns: 1fr 1fr 1.6fr; gap: 12px; }
+  .part { background: var(--bg); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; }
+  .part h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+  .part p, .model-text {
+    margin: 0; font-family: "Literata", Georgia, serif; font-size: 16px; line-height: 1.6; color: var(--text);
+  }
+  .part.loop { grid-column: 1 / -1; }
+  /* History box: bars growing with each request, then a small note */
+  .grow { margin: 16px auto 0; display: flex; align-items: flex-end; gap: 4px; height: 34px; max-width: 180px; }
+  .grow i { flex: 1; background: var(--accent); opacity: .7; border-radius: 2px; }
+  .grow-cap { display: flex; justify-content: space-between; max-width: 180px; margin: 4px auto 0; font-family: "Inter", system-ui, sans-serif; font-size: 11px; color: var(--muted); }
+  .part .part-note { margin-top: 12px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+  /* Example tools inside the Tools box: little tool chips */
+  .tool-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool-list li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px 6px 10px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); font-size: 13px; line-height: 1.3; color: var(--text); }
+  .tool-list svg { flex: none; color: var(--accent); }
+  /* Example system prompt inside the Instructions box */
+  .part .prompt-eg { margin-top: 12px; padding: 10px 12px; background: var(--card); border-radius: 8px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .steps { list-style: none; counter-reset: step; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .steps li {
+    counter-increment: step; position: relative;
+    background: var(--card); border-radius: 10px; padding: 14px 16px 14px 50px;
+    font-size: 14px; line-height: 1.55;
+  }
+  .steps li::before {
+    content: counter(step); position: absolute; left: 14px; top: 13px;
+    width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;
+  }
+  /* Loop steps: step 2 loops back, step 3 is the way out */
+  .steps .cue { display: block; margin-top: 8px; font-size: 12px; color: var(--accent); }
+  .steps li.exit { background: color-mix(in srgb, var(--accent) 16%, var(--bg)); }
+  /* Flow-chart arrows between the agent and the model, label sitting on the line */
+  .wire { display: flex; flex-direction: column; gap: 26px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .flow { position: relative; width: 120px; height: 22px; text-align: center; line-height: 22px; }
+  .flow::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px solid var(--muted); opacity: .6; }
+  .flow::after { content: ""; position: absolute; top: 50%; width: 8px; height: 8px; border-top: 1.5px solid var(--muted); border-right: 1.5px solid var(--muted); opacity: .6; }
+  .flow.in::after { right: 1px; transform: translateY(-50%) rotate(45deg); }
+  .flow.out::after { left: 1px; transform: translateY(-50%) rotate(-135deg); }
+  .flow span { position: relative; background: var(--bg); padding: 0 10px; }
+  /* Model with example models fanning out to the right */
+  .model { display: flex; align-items: flex-start; }
+  .model-core { width: 200px; text-align: center; flex: none; }
+  .fan-wrap { display: flex; align-items: flex-start; }
+  .fan { flex: none; margin: 2px 0 0 -36px; color: var(--muted); opacity: .6; }
+  .providers { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; font-size: 13px; color: var(--muted); }
+  .providers li { height: 32px; line-height: 30px; padding: 0 12px; border: 1px solid var(--rule); border-radius: 999px; background: var(--card); white-space: nowrap; }
+  .providers b { font-weight: 500; color: var(--text); }
+  .model-dot {
+    width: 128px; height: 128px; border-radius: 50%; background: var(--accent); color: #fff; margin: 0 auto 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 18px; font-weight: 600;
+  }
+  .model-dot small { font-size: 12px; font-weight: 400; opacity: .85; }
+  .model-text { font-size: 15px; }
+  @media (max-width: 1280px) {
+    .model { display: grid; grid-template-columns: 1fr auto 1fr; }
+    .model-core { grid-column: 2; }
+    .fan-wrap { grid-column: 3; }
+    .anatomy { grid-template-columns: 1fr; }
+    .wire { flex-direction: row; justify-content: center; gap: 56px; }
+    .flow { width: 90px; height: 72px; line-height: 72px; }
+    .flow::before { left: 50%; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1.5px solid var(--muted); }
+    .flow.in::after { right: auto; left: 50%; top: auto; bottom: 1px; transform: translateX(-50%) rotate(135deg); }
+    .flow.out::after { left: 50%; top: 1px; transform: translateX(-50%) rotate(-45deg); }
+    .flow span { padding: 4px 0; line-height: 1.4; }
+    .model-text { max-width: 44ch; margin: 0 auto; }
+  }
+  @media (max-width: 640px) {
+    .model { display: flex; flex-direction: column; align-items: center; }
+    .fan-wrap { flex-direction: column; align-items: center; }
+    .fan { display: none; }
+    .providers { margin-top: 18px; align-items: center; gap: 8px; }
+    .program { padding: 18px; }
+    .parts, .steps { grid-template-columns: 1fr; }
+  }
+  /* Agent-speak phrasebook: the phrase, then what it means */
+  /* Agent-speak phrasebook: the phrase, then an arrow to what happens */
+  .speak { margin: 28px 0 8px; font-size: 22px; line-height: 1.4; }
+  .means { margin: 0 0 22px; padding-left: 28px; position: relative; font-size: 17px; line-height: 1.6; color: var(--muted); }
+  .means::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+  .means b { color: var(--accent); font-weight: 600; }
+  .finally { margin: 28px 0 0; }
+  .todo { color: var(--muted); font-style: italic; }
+  /* Extra space: add <div class="space"></div> anywhere you want a bigger gap */
+  .space { height: 48px; }
+  .end { text-align: center; color: var(--muted); margin-top: 56px; letter-spacing: .5em; }
+</style>
+</head>
+<body>
+<article>
+  <h1>Can you hire an AI agent?</h1>
+  <p class="subtitle">A commentary on how we speak about agents</p>
+  <p class="byline">Charley Carriero<br>September 27, 2026</p>
+
+  <p>It’s been a tremendous year for AI agents. Perhaps like me, you’ve found it hard to appreciate all that has happened. For example:</p>
+  <div class="hook">
+    <div class="hook-row"><p>The coding agents of last year were helpful for writing software unit tests. The tests they wrote failed a lot, but working with them was a welcome improvement.</p></div>
+    <div class="hook-row now"><p>The coding agents of this year have convinced me and many other software engineers that we will not be coding by hand anymore. Many of us already aren’t. How we build software is changing wildly fast.</p></div>
+  </div>
+  <p>As the capabilities of agents leap ahead, it feels natural to anthropomorphize them. Though I wonder if we should. Saying that you’ve hired an agent or are managing a team of agents feels misleading to me. Maybe I’m wrong, or slow to adapt to this linguistic change. I’m happy to be convinced otherwise, but until then, here’s what has helped me make up my mind.</p>
+
+  <h2>Briefly, agents</h2>
+  <p><em>Agent</em> is a word that we give to a person or system that is able to act on your behalf. This person or system (your agent) acts on your behalf to achieve some agreed-upon objective. For example, you hire a travel agent to plan a holiday.</p>
+  <p>We often work with computers to achieve agreed-upon objectives, but until recently, we would rarely say that they’re acting on our behalf. This is because if you have to tell something explicitly what to do, it’s not acting on your behalf, it’s acting exactly how you told it to. To further the example, you can hire a travel agent to book your holiday, and use a computer program to send your out-of-office auto-replies. But no one calls your out-of-office bot agentic.</p>
+  <p>What’s happening now is that for the first time, thanks to generative language models, we’re able to write programs that don’t just follow a list of instructions, they instead decide what the instructions should be, and then execute them.</p>
+
+  <figure class="spectrum" aria-label="A line from 'does what you said' to 'acts on your behalf': the out-of-office bot at one end, the travel agent at the other, and the AI agent somewhere in between.">
+    <div class="spectrum-ends">
+      <div><span class="s-name">Out-of-office bot</span><span class="s-note">does what you said</span></div>
+      <div><span class="s-name">Travel agent</span><span class="s-note">acts on your behalf</span></div>
+    </div>
+    <div class="track"><span class="stop bot"></span><span class="stop ai"></span><span class="stop human"></span></div>
+    <div class="spectrum-mid"><div><span class="s-name">AI agent?</span><span class="s-note">decides its own steps</span><span class="s-note">acts only through the tools you provide</span></div></div>
+  </figure>
+
+  <h2>AI vs AI agents</h2>
+  <p class="section-sub">So is the generative language model the agent?</p>
+  <p>A generative language model predicts the most likely next piece of text, based on the enormous amount of text it was trained on. Out of the box, language models are very good at language tasks: translating, summarizing, rewriting, explaining. You don’t need to build an agent to accomplish any of these tasks.</p>
+  <p>What’s interesting is that even for language-esque tasks, like counting letters, generative language models don’t perform reliably.</p>
+  <div class="chat">
+    <span class="you">There are 2 r’s in strawberry, right?</span>
+    <span class="ai">You’re absolutely right, there are 2 r’s in strawberry.</span>
+  </div>
+  <p>Models don’t read text letter by letter, and they also can’t count. This isn’t intuitive if you think of a model as being ‘intelligent’. But if you think of a model as a text predictor, it’s easier to imagine why it won’t know the current time. Computer programs, however, are very good at counting and knowing the current time. This is why we started building agents.</p>
+  <p>A summary: picture the model–agent relationship in fashion. AI is very similar.</p>
+  <div class="callout">
+    <p class="callout-line">Agents exist to help models do work.</p>
+    <p>Without an agent, a model can’t get the important connections that it needs to succeed.</p>
+  </div>
+
+  <h2>Making agents</h2>
+  <p>There’s no single or defined way to build an agent, but there are common building blocks. It is simply a computer program at the end of the day.</p>
+
+  <figure class="anatomy" aria-label="The agent is a program that holds instructions, tools, history and a loop. It sends text to a model through an API and gets text back.">
+    <div class="program">
+      <p class="program-label">The agent<span>A computer program</span></p>
+      <div class="parts">
+        <div class="part">
+          <h3>Instructions</h3>
+          <p>Text sent with every request, often called the system prompt.</p>
+          <p class="prompt-eg">You are a helpful assistant. You can use these tools. Ask before you do x.</p>
+        </div>
+        <div class="part">
+          <h3>Tools</h3>
+          <p>What the program can do for the model.</p>
+          <ul class="tool-list">
+            <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></g></svg>search the web</li>
+            <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 1.75h5l3 3v9.5H4z"/><path d="M9 1.75v3h3"/></g></svg>read your files</li>
+            <li><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5v3M10 1.5v3M4 4.5h8v3a4 4 0 0 1-8 0zM8 11.5v3"/></g></svg>connect to other apps and services</li>
+          </ul>
+          <p class="part-note">The model can only ask for a tool. The program does the running.</p>
+        </div>
+        <div class="part">
+          <h3>History</h3>
+          <p>A log of the conversation, kept by the program and sent with every request.</p>
+          <p class="part-note">In a long conversation, history can fill the model’s context, the limit on how much text it can take in at once.</p>
+          <div class="grow" aria-label="The history gets longer with every request">
+            <i style="height:12%"></i><i style="height:22%"></i><i style="height:34%"></i><i style="height:47%"></i><i style="height:62%"></i><i style="height:80%"></i><i style="height:100%"></i>
+          </div>
+          <div class="grow-cap"><span>1st request</span><span>7th request</span></div>
+        </div>
+        <div class="part loop">
+          <h3>A loop</h3>
+          <p>This is what makes these programs feel agentic. The code doesn’t decide what happens after the model responds. The response itself is a decision.</p>
+          <ol class="steps">
+            <li>Send the model the instructions, the history and the tools.</li>
+            <li>If the model asks for a tool, run the tool and add the result to the history.<span class="cue">↺ back to step 1</span></li>
+            <li class="exit">If the model doesn’t request any tool use, return the response to the user.<span class="cue">done</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="wire">
+      <div class="flow in"><span>text in</span></div>
+      <div class="flow out"><span>text out</span></div>
+    </div>
+    <div class="model">
+      <div class="model-core">
+        <div class="model-dot">Model</div>
+        <p class="model-text">Text in, text out.<br>Remembers nothing between calls.</p>
+      </div>
+      <div class="fan-wrap">
+      <svg class="fan" width="40" height="124" viewBox="0 0 40 124" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4">
+          <path d="M0 62 C 20 62, 20 16, 40 16"/>
+          <path d="M0 62 L 40 62"/>
+          <path d="M0 62 C 20 62, 20 108, 40 108"/>
+        </g>
+      </svg>
+      <ul class="providers" aria-label="For example">
+        <li><b>Claude Opus 5.5</b> · Anthropic</li>
+        <li><b>GPT-6 Sol</b> · OpenAI</li>
+        <li><b>Gemini 3.8 Flash</b> · Google</li>
+      </ul>
+      </div>
+    </div>
+  </figure>
+
+  <p>We’re still learning a lot about how to optimally build agents. In doing so, I’m even learning a lot about how I like to interact with them. I think while we’re experimenting, the language we use around agents is especially important. Not for the sake of linguistics, but really just so that we can learn from each other.</p>
+  <p>Given the above, we return to our discussion on how we speak about agents. Perhaps the following now have a different meaning.</p>
+  <p class="speak">“I’m managing a team of agents.”</p>
+  <p class="means"><b>What happens:</b> I run several programs in parallel to achieve my goal.</p>
+  <p class="speak">“My agent learned to do X.”</p>
+  <p class="means"><b>What happens:</b> I edited its instructions, or told it to write a note that it can read next time. The model itself hasn’t changed.</p>
+  <p class="speak">“My agent booked me a train.”</p>
+  <p class="means"><b>What happens:</b> The model replied with a request to use the booking tool, and the program ran it.</p>
+  <p class="finally">And finally,</p>
+  <p class="speak">“I hired an AI agent.”</p>
+  <p class="means"><b>What happens:</b> I’m using a computer program to automate some work. The program runs a model in a loop to get the task done.</p>
+
+  <h2>So, can you hire an AI agent?</h2>
+  <p>For me, I would say no. You can work with one. Which I think is already a big step up from what we can say about traditional software.<br>
+  Now, if you want to tell your agent it’s hired, I have no objections.</p>
+  <div class="end">· · ·</div>
+</article>
+</body>
+</html>
